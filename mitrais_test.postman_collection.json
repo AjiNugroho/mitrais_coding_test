@@ -1,0 +1,98 @@
+{
+	"info": {
+		"_postman_id": "293939fd-958e-42b6-85b7-3cf8b182d42b",
+		"name": "mitrais_test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "mobile_number",
+							"value": "081123345567",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "coba@mail.com",
+							"type": "text"
+						},
+						{
+							"key": "first_name",
+							"value": "mas",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "coba",
+							"type": "text"
+						},
+						{
+							"key": "birth",
+							"value": "01-01-2000",
+							"type": "text"
+						},
+						{
+							"key": "gender",
+							"value": "male",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/mitrais/save_register",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"mitrais",
+						"save_register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "mobile_number",
+							"value": "0811233455674",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "coba@mail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/mitrais/login",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"mitrais",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
