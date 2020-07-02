@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Mitrais Coding Test</title>
+        <link href="/static/css/bootstrap.css" rel='stylesheet' type='text/css'/>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Registration</h2>
+                <div class="form-group">
+                    <input type="text" id="no_hp" name="no_hp" class="form-control" placeholder="Mobile number" onchange="validate()" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="f_name" name="f_name" class="form-control" placeholder="First name" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="l_name" name="l_name" class="form-control" placeholder="Last name" required>
+                </div>
+                <div>
+                <h4> Date Of Birth</h4>
+                <div class="form-group">
+                                    
+                    <select id='month' class="">
+                        <option disabled selected>Month</option>
+                    </select>
+                    <select id='date'>
+                        <option disabled selected>Date</option>
+                    </select>
+                    <select id='year'>
+                        <option disabled selected>Year</option>
+                    </select>
+                </div>
+                </div>
+                <div class="form-group">
+                        <input type="radio" id="gender1" name="gender" value="male" > Male
+                        <input type="radio" id="gender2" name="gender" value="female" > Female
+                                    
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" class="form-control" placeholder="email" required>
+                </div>
+                <div class="form-group">
+                    <button id="reg_but" type="submit" onclick="register()" class="form-control btn-info">register</button>
+                </div>
+                <div id="invis" class="form-group">
+                    <button onclick="redir()" class="form-control btn-info" >login</button>
+                </div>
+        </div>
+
+ 
+    <script src="/static/js/jquery-3.5.1.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+
+    <script>
+    $(document).ready(function(){
+
+        let opt = document.getElementById('month');
+        for (i=1; i<=12; i++){
+            let option = document.createElement('option');
+            option.text = (i);
+            opt.add(option);
+        }
+        let optd = document.getElementById('date');
+        for (i=1; i<=31; i++){
+            let option = document.createElement('option');
+            option.text = (i);
+            optd.add(option);
+        }
+        let opty = document.getElementById('year');
+        for (i=2020; i>=1950; i--){
+            let option = document.createElement('option');
+            option.text = (i);
+            opty.add(option);
+        }
+
+        let invis = document.getElementById('invis');
+        invis.style.display = "none";
+        
+ 
+    });
+    </script>
+    <script type="text/javascript">
+
+        function validate(){
+            
+            let x = document.getElementById('no_hp');
+            let lenx = x.value.length;
+            let number = '1234567890'
+            if (lenx != 12){
+                x.value = '';
+                x.placeholder = 'mobile number is not valid'
+            }
+
+            for (var i=0; i < lenx; i++) {
+            digit = "" + x.value.substring(i, i+1);        
+            if (number.indexOf(digit) == "-1") {
+                x.value = '';
+                x.placeholder = 'mobile number is not valid'
+                }
+                }
+            let nom = x.value;
+            if (nom.substring(0,2)!= '08'){
+                x.value = '';
+                x.placeholder = 'mobile number is not valid'
+            }
+            }
+
+            
+        </script>
+
+<script type="text/javascript">
+    async function postData(url = '', data = {}) {
+  
+    const response = await fetch(url, {
+    method: 'POST', 
+    mode: 'cors', 
+    cache: 'no-cache', 
+    credentials: 'same-origin', 
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow', 
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(data)
+    });
+    
+    return response.json(); 
+    }
+
+    function register(){
+        let mobile = document.getElementById('no_hp').value;
+        let first = document.getElementById('f_name').value;
+        let last = document.getElementById('l_name').value;
+        let m_ = document.getElementById('month');
+        let month = m_.options[m_.selectedIndex].value;
+        let d_ = document.getElementById('date');
+        let date = d_.options[d_.selectedIndex].value;
+        let y_ = document.getElementById('year');
+        let year = y_.options[y_.selectedIndex].value;
+        let birth = date +'-'+ month + '-' + year;
+        if (birth.includes('Month') || birth.includes('Date') || birth.includes('Year')){
+            birth = 'no options'
+        }
+        let radios = document.querySelectorAll('input[type="radio"]:checked');
+        let value_radio = radios.length>0? radios[0].value: 'no options';
+
+        let email = document.getElementById('email').value;
+
+        //console.log(mobile,first,last,birth,value_radio,email)
+        
+        postData('http://localhost:5000/mitrais/save_register', {
+            'mobile_number':mobile,
+            'email':email,
+            'first_name':first,
+            'last_name':last,
+            'birth':birth,
+            'gender':value_radio})
+        .then(data => {
+        console.log(data); // JSON data parsed by `data.json()` call
+        //window.alert(data.results)
+        if (data.results){
+            //window.alert(data.results)
+            let mob_dis = document.getElementById('no_hp');
+            let first_dis = document.getElementById('f_name');
+            let last_dis = document.getElementById('l_name');
+            let m_dis = document.getElementById('month');
+            let d_dis = document.getElementById('date');
+            let y_dis = document.getElementById('year');
+            let radio1 = document.getElementById('gender1');
+            let radio2 = document.getElementById('gender2');
+            let email_dis = document.getElementById('email');
+            let reg_but = document.getElementById('reg_but');
+
+            mob_dis.disabled = true;
+            first_dis.disabled = true;
+            last_dis.disabled = true;
+            m_dis.disabled = true;
+            d_dis.disabled = true;
+            y_dis.disabled = true;
+            radio1.disabled = true;
+            radio2.disabled = true;
+            email_dis.disabled = true;
+            reg_but.disabled = true;
+
+            let invis = document.getElementById('invis');
+            invis.style.display = "block";
+
+            
+            console.log(data.results)
+
+        } else {
+            window.alert(data.error.message)
+            //console.log(data.error)
+        }
+        });
+
+    }
+
+    function redir(){
+        location.replace('/mitrais/view_login')
+    }
+
+    </script>
+
+
+
+    </body>
+</html>
